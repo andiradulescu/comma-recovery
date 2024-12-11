@@ -18,8 +18,23 @@ if [ ! -d "$EDL_PATH" ]; then
 fi
 
 pushd $EDL_PATH > /dev/null
-python3 -m venv venv
-source venv/bin/activate
+
+if command -v python3 &>/dev/null; then
+  PYTHON_CMD=python3
+elif command -v python &>/dev/null; then
+  PYTHON_CMD=python
+else
+  echo "Error: Python not found"
+  exit 1
+fi
+
+$PYTHON_CMD -m venv venv
+
+if [[ "$OSTYPE" == "msys" ]] || [[ "$OSTYPE" == "win32" ]]; then
+    source venv/Scripts/activate
+else
+    source venv/bin/activate
+fi
 
 if [ "$(< .git/HEAD)" != "$VERSION" ]; then
   echo "Updating edl..."
@@ -30,10 +45,11 @@ if [ "$(< .git/HEAD)" != "$VERSION" ]; then
   pip3 install -r requirements.txt
   tput sgr0    # reset text color to default
 fi
+
 popd > /dev/null
 
 edl() {
   tput setaf 8 # set text color to gray
-  $EDL_PATH/edl "$@"
+  $PYTHON_CMD $EDL_PATH/edl "$@"
   tput sgr0    # reset text color to default
 }
