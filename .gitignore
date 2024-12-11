@@ -1,0 +1,4 @@
+*.DS_Store
+*.img
+edl_config.json
+tools/edl_repo/
