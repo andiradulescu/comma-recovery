@@ -4,6 +4,9 @@ set -e
 DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" >/dev/null && pwd)"
 cd $DIR
 
+# source edl wrapper and run compatibility check
+source tools/edl.sh
+
 GPT_FOLDER="gpt/universal"
 echo "Flashing GPTs from '$GPT_FOLDER'..."
 
