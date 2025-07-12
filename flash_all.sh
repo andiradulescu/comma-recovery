@@ -31,3 +31,5 @@ for fw_file in "$DIR/output/"*; do
     edl w "$fw_name_no_ext" "$fw_file"
   fi
 done
+
+edl setbootablestoragedrive 1
